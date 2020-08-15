@@ -1,0 +1,168 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="container p-0">
+  <% if(message) { %>
+    <h6 class="alert alert-danger" role="alert"> <%= message %> </h6>
+  <% } %>
+  <div class="row m-0">
+    <div class="col-12 col-lg-9 mb-3">
+      <div class="row justify-content-center">
+        <div class="col-10 col-sm-3 mb-3 mb-sm-0 p-0">
+          <h3 class="lead">YelpCamp</h3>
+          <ul
+            class="list-group mt-3"
+            style="font-size: clamp(9px, 1.2vw, 2rem);"
+          >
+            <li class="list-group-item active">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+          </ul>
+        </div>
+        <div class="col-10 col-sm-9 p-0 pl-sm-3 px-lg-3">
+          <div class="card text-center">
+            <h2 class="card-header" style="white-space: normal; overflow: hidden; max-height: 95px;">
+              <%= popCamp.name %>
+            </h2>
+            <img
+              src="<%=popCamp.image%>"
+              alt=""
+              class="img-thumbnail"
+              style="height: 220px; object-fit: cover contain;"
+            />
+            <div class="card-body p-0" style="overflow-x: hidden;">
+              <div
+                class="row justify-content-between p-3"
+                style="background-color: lavenderblush;"
+              >
+                <p class="col-6 text-left h5 mb-0" style="white-space: nowrap; overflow: hidden;"><%= popCamp.name %></p>
+                <p class="col-6 text-right h5 mb-0">$<%= popCamp.price %>/night</p>
+              </div>
+              <p class="card-text p-3 mb-3"><%= popCamp.description %></p>
+              <p class="card-text p-3 text-left text-primary font-italic mb-0"><strong>Submitted By:</strong> <%= popCamp.author ? popCamp.author.username : popCamp.name %></p>
+
+              <% if(currentUser && popCamp.author && currentUser.username === popCamp.author.username) { %>
+              <div class="row w-100 m-0 mb-2 px-3">
+                <form action="/campgrounds/<%= popCamp._id %>?_method=DELETE" class="form-group col-2 mr-2 m-0 p-0" method="POST">
+                  <button type="submit" class="btn btn-sm btn-outline-danger font-weight-bold w-100">Delete</button>
+                </form>
+                <a href="/campgrounds/edit/<%= popCamp._id %>" class="btn btn-sm btn-outline-warning col-2 font-weight-bold">Edit</a>
+              </div>
+            <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+
+    <div class="col-10 col-sm-12 col-lg-3 p-lg-0 mx-auto p-0">
+      <div class="card border-0">
+        <h3 class="card-header text-white bg-primary text-center">Reviews</h3>
+        <div class="card-body text-center">
+          <% popCamp.comments.map(comment => { %>
+          <div class="row flex-column flex-md-row flex-lg-column justify-content-center parent">
+            <h6
+              class="d-block d-md-none d-lg-block col-8 col-sm-6 col-md-3 col-lg-10 card-text py-1 py-md-3 px-0 bg-success text-white text-center rounded mb-2 m-md-0 align-self-center"
+              style="white-space: nowrap;"
+            >
+              <%= comment.author %>
+            </h6>
+            <div
+              class="d-none d-md-block d-lg-none col-8 col-sm-6 col-md-2 col-lg-10 card-text text-white text-center rounded  m-md-0 mx-auto p-0"
+              style="overflow: hidden;"
+            >
+              <h6
+                class="bg-danger m-auto rounded-circle"
+                style="width: 100px; height: 100px; line-height: 100px;"
+              >
+                <%= comment.author %>
+              </h6>
+            </div>
+            <div
+              class="p-0 col-8 col-sm-6 col-md-6 col-lg-11 mb-4 m-md-0 align-self-center"
+            >
+              <p
+                class="card-text p-0 py-2 px-md-3  pl-lg-3 comment"
+                style="cursor: pointer; font-size: small;"
+                spellcheck="false"
+                contenteditable
+              >
+                <%= comment.text %>
+              </p>
+            </div>
+            <div class="p-0 col-8 col-sm-6 col-md-2 col-lg-9 mx-auto mx-md-2 mx-lg-auto">
+              <div class="row w-100 h-100 m-0 py-md-2 ">
+                <form
+                  action=""
+                  method=""
+                  class="form-group col-6 col-md-12 col-lg-6 pl-0 pr-1 p-md-0 pl-lg-0 pr-lg-1"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-primary w-100 text-center px-0 align-self-start update"
+                    data-comment="<%= comment._id %>"
+                    data-author="<%= comment.author %>"
+                    style="white-space: nowrap;"
+                  >
+                    Update
+                  </button>
+                </form>
+                <form
+                  action="/campgrounds/comment/<%= comment._id %>/<%= comment.author %>?_method=DELETE"
+                  method="POST"
+                  class="form-group mb-0 col-6 col-md-12 col-lg-6 pl-1 pr-0 p-md-0 pl-lg-1 pr-lg-0 align-self-md-end align-self-lg-start"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-primary w-100 px-0"
+                    style="white-space: nowrap;"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <hr style="background-color: red;" />
+          <% }) %>
+        </div>
+        <% if(allowComment) { %>
+        <div class="row justify-content-center">
+          <form
+            action="/campgrounds/comment/<%= popCamp._id %>"
+            method="Post"
+            class="form-group text-center w-100"
+          >
+            <input
+              type="text"
+              class="form-control mx-auto mb-3 col-8 text-center"
+              name="author"
+              placeholder="User Name"
+              value="<%= currentUser ? currentUser.username : '' %>"
+              required
+              readonly
+            />
+            <input
+              type="text"
+              class="form-control mx-auto mb-3 col-8"
+              name="text"
+              placeholder="Text"
+              required
+            />
+            <button
+              type="submit"
+              class="btn btn-primary btn-sm col-8"
+              style="white-space: nowrap;"
+            >
+              Add Comment
+            </button>
+          </form>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("./partials/footer.ejs") %>

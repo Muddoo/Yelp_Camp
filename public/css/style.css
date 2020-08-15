@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  overflow-x: hidden;
+}
+ul{
+  cursor: pointer;
+}
+ul li a.active {
+  color: red !important;
+}
+.comment:hover{
+  background-color: lavenderblush;
+}
+@media only screen and (max-width: 450px) {
+    div p.h5{
+        font-size: 1rem;
+    }
+  }

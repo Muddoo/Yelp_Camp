@@ -1,0 +1,61 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="container p-0" style="overflow-x: hidden;">
+  <% if(message) { %>
+    <h6 class="alert alert-success" role="alert"> <%= message %> </h6>
+  <% } %>
+  <header class="jumbotron">
+    <h1 class="text-center display-3 font-weight-bold mb-3 d-none d-lg-block">
+      <img src="https://freesvg.org/img/valessiobrito_Fire_June_holiday_s.png?w=150&h=150&fit=fill" alt="" class="main-image" style="position: relative; top: -15px;">Welcome To YelpCamp!</h1>
+    <h1 class="text-center d-block d-lg-none font-weight-bold mb-3">Welcome To YelpCamp!</h1>
+    <p class="text-center m-0">
+      View our hand-picked backgrounds from all over the world
+    </p>
+    <div class="row mt-4">
+      <a
+        href="/campgrounds/new"
+        class="btn btn-lg btn-info col-10 offset-1 col-md-6 offset-md-3"
+        >Add Campground</a
+      >
+    </div>
+  </header>
+
+  <div>
+    <h1 class="text-center mb-5 text-success">Camps</h1>
+
+    <div class="row justify-content-around">
+      <% campgrounds.map(camp => {%>
+      <div
+        style="
+          /* flex: 1;
+          flex-basis: auto;
+          max-width: 200px;
+          text-align: center;
+          margin-bottom: 20px;
+          white-space: nowrap; */
+
+          cursor: pointer;
+        "
+        class="col-10 col-sm-6 col-md-4 col-lg-3 mb-3"
+      >
+        <div class="card text-center h-100">
+          <img
+            src="<%= camp.image %>"
+            alt=""
+            style="height: 150px;object-position: center bottom;object-fit: cover;"
+            class="img-thumbnail"
+          />
+          <div class="card-body">
+            <h3 style="font-size: 1rem; white-space: nowrap; font-weight: 700; text-shadow: bisque 2px 2px;" class="card-title">
+              <%= camp.name %>
+            </h3>
+            <a href="/campgrounds/<%= camp._id %>" class="btn btn-sm btn-primary">More Info</a>
+          </div>
+        </div>
+      </div>
+      <%})%>
+    </div>
+  </div>
+</div>
+
+<%- include("./partials/footer.ejs") %>

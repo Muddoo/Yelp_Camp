@@ -1,0 +1,59 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="container">
+    <h1 class="text-center">Edit CampGroud</h1>
+    <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST" class="form-group mb-5 mt-4">
+      <div
+        class="d-flex justify-content-around align-items-center flex-column row"
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          class="form-control col-6 mb-3"
+          value="<%= camp.name %>"
+          required
+        />
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL"
+          class="form-control col-6 mb-3"
+          value="<%= camp.image %>"
+          required
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Describe the Camp"
+          class="form-control col-6 mb-3"
+          minlength="10"
+          value="<%= camp.description %>"
+          required
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price Per Night"
+          class="form-control col-6 mb-3"
+          value="<%= camp.price %>"
+          max="100"
+          step="0.01"
+          required
+        />
+        <button
+          type="submit"
+          class="btn btn-primary h-100 text-center col-6 col-sm-2 col-lg-1"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+    <div class="row justify-content-center">
+      <a href="/campgrounds" class="btn btn-lg btn-danger col-6 col-sm-3"
+        >Go Back</a
+      >
+    </div>
+  </div>
+
+<%- include("./partials/footer.ejs") %>
