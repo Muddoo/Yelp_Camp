@@ -42,9 +42,11 @@ app.use(campRouter);
 app.use(commentRouter);
 app.use(indexRouter);
 
-mongoose.connect("mongodb://localhost/Yelp_Camp", {
+mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+//mongodb://yelp:pass123@ds141294.mlab.com:41294/heroku_6rj5s3ls
 
 app.listen(port, () => console.log("Listening on Port " + port));
