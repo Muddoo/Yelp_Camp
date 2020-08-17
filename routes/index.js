@@ -19,7 +19,6 @@ router.post("/register", (req, res) => {
   const { username, password } = req.body;
   Users.register(new Users({ username }), password, (err, user) => {
     if (err) {
-      console.log(err.message);
       req.flash("error", err.message);
       return res.redirect("/register");
     }
@@ -32,15 +31,20 @@ router.post("/register", (req, res) => {
 });
 
 router.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-  }),
-  (req, res) => {
-    req.flash("error", `Welcome To YelpCamp ${req.user.username}`);
-    res.redirect("/campgrounds")
-  }
-);
+  "/login", function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+      if (err)  return next(err); 
+      if (!user) { 
+        req.flash("error", "Invalid Input");
+        return res.redirect('/login'); 
+      }
+      req.logIn(user, function(err) {
+        if (err) return next(err); 
+        req.flash("error", `Welcome To YelpCamp ${req.user.username}`);
+        return res.redirect('/campgrounds');
+      });
+    })(req, res, next);
+});
 
 router.get("*", (req, res) => res.redirect("/"));
 
