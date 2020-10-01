@@ -16,6 +16,10 @@ body {
     z-index: 1;
 }
 
+.landing__header {
+  text-align: center;
+}
+
 .slideshow {
   position: fixed;
   width: 100%;
