@@ -50,5 +50,3 @@ mongoose.connect(process.env.DATABASEURL, {
 //mongodb://yelp:pass123@ds141294.mlab.com:41294/heroku_6rj5s3ls
 
 app.listen(port, () => console.log("Listening on Port " + port));
-
-//rtok
